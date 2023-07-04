@@ -54,29 +54,24 @@ public class UserCanWorkWithAddressInNewContact {
                 "    }";
         JSONAssert.assertEquals(actualJson, expectedJson, JSONCompareMode.STRICT);
 
-//        //edit created addressTODO:PUT
         int id = addressId;
         address.editAddress(200, id, contactId);
-        //get data for edited address TODO:GET
         JsonPath editedAddress = address.getAddress(200, id).jsonPath();
         LinkedHashMap<String, String> objectEditedAddress = new LinkedHashMap<>();
         objectEditedAddress.put(editedAddress.getString("city"), address.dataForEditAddress(id, contactId).getCity());
         objectEditedAddress.put(editedAddress.getString("country"), address.dataForEditAddress(id, contactId).getCountry());
         objectEditedAddress.put(editedAddress.getString("street"), address.dataForEditAddress(id, contactId).getStreet());
-//
+
         for (Map.Entry<String, String> object : objectEditedAddress.entrySet()) {
             String actualResult = object.getKey();
             String expectedResult = object.getValue();
             Assert.assertEquals(actualResult, expectedResult, actualResult + "not equal" + expectedResult);
-//        }
-//        // delete edited address
-
-           address.deleteAddress(200, id);
+            // delete edited address
+        }
+            address.deleteAddress(200, id);
 //        //method we will use TODO: DELETE
 //        // get error message (not existing DB)
             JsonPath actualDeleteAddress = address.getAddress(500, id).jsonPath();
-           Assert.assertEquals(actualDeleteAddress.getString("message"), "Error! This address doesn't exist in our DB");
-
-      }
+            Assert.assertEquals(actualDeleteAddress.getString("message"), "Error! This address doesn't exist in our DB");
         }
     }
